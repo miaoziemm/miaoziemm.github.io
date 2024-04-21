@@ -183,7 +183,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/C-GSL-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="color: #03a9f4">C / GSL / 线性代数</a>
+                <a href="/tags/C-GSL-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="color: #ff7d73">C / GSL / 线性代数</a>
             </span>
             
         </span>
@@ -195,123 +195,35 @@
 <span id="more"></span>
 
 <p>这是一个线性方程组：</p>
-<p>$$<br>x_1+2x_2-5x_3&#x3D;3\<br>3x_1+4x_2-2x_3&#x3D;6\<br>2x_1+x_2-2x_3&#x3D;7<br>$$</p>
+<p>[<br>\begin{align*}<br>x_1+2x_2-5x_3 &amp;&#x3D; 3 \<br>3x_1+4x_2-2x_3 &amp;&#x3D; 6 \<br>2x_1+x_2-2x_3 &amp;&#x3D; 7<br>\end{align*}<br>]</p>
 <p>当我们想要求解它时，需要经历一系列繁琐的步骤。就像解二元一次方程组一样，我们需要不断的上下消元，最终才可以得到x的三个解。</p>
 <p>不过聪明的小伙伴可能会说，我可以把这个线性方程组写成矩阵的形式，比如这样。</p>
-<p>$$<br>Ax&#x3D;b<br>$$</p>
-<p>$$<br>A&#x3D;\begin{bmatrix}<br> 1 &amp; 2 &amp; -5\<br> 3 &amp; 4 &amp; -2\<br> 2 &amp; 1 &amp;-2<br>\end{bmatrix} \<br>x&#x3D;\begin{bmatrix}<br>x_1 \ x_2 \ x_3<br>\end{bmatrix}<br>b&#x3D;\begin{bmatrix}<br>3 \ 6 \ 7<br>\end{bmatrix}<br>$$<br>那么我们只需要简单的将系数矩阵A移到等式的右边，就可以计算出未知数x的值了！<br>$$<br>x&#x3D;A^{-1}b<br>$$</p>
+<p>[<br>Ax&#x3D;b<br>]</p>
+<p>[<br>A&#x3D;\begin{bmatrix}<br> 1 &amp; 2 &amp; -5\<br> 3 &amp; 4 &amp; -2\<br> 2 &amp; 1 &amp;-2<br>\end{bmatrix} \<br>x&#x3D;\begin{bmatrix}<br>x_1 \ x_2 \ x_3<br>\end{bmatrix}<br>b&#x3D;\begin{bmatrix}<br>3 \ 6 \ 7<br>\end{bmatrix}<br>]</p>
+<p>那么我们只需要简单的将系数矩阵A移到等式的右边，就可以计算出未知数x的值了！</p>
+<p>[<br>x&#x3D;A^{-1}b<br>]</p>
 <p>看起来好像非常简单，但是实际操作起来似乎有不少的麻烦。</p>
 <p>对于一个3x3的矩阵来说，求取他的逆矩阵似乎是一件比较简单的事情，但是如果我们要求取的是一个100x100的矩阵的逆，甚至是更大的矩阵，那么这个问题就变得非常的困难了。</p>
 <p>所以，我们需要一种更加简单的方法来解决这个问题。</p>
 <p>我们首先思考，有没有一种方法，让我们不需要求逆矩阵，就可以解决这个问题呢？</p>
 <p>我们可以将一个矩阵分解成一个下三角矩阵L和一个上三角矩阵U的乘积。</p>
 <p>比如说，对于一个3x3的矩阵来说，我们可以将他分解成这样的形式：</p>
-<p>$$<br>A&#x3D;\begin{bmatrix}<br>1 &amp; 0 &amp; 0\<br>l_{21} &amp; 1 &amp; 0\<br>l_{31} &amp; l_{32} &amp; 1<br>\end{bmatrix}<br>\begin{bmatrix}<br>u_{11} &amp; u_{12} &amp; u_{13}\<br>0 &amp; u_{22} &amp; u_{23}\<br>0 &amp; 0 &amp; u_{33}<br>\end{bmatrix}<br>$$</p>
+<p>[<br>A&#x3D;\begin{bmatrix}<br>1 &amp; 0 &amp; 0\<br>l_{21} &amp; 1 &amp; 0\<br>l_{31} &amp; l_{32} &amp; 1<br>\end{bmatrix}<br>\begin{bmatrix}<br>u_{11} &amp; u_{12} &amp; u_{13}\<br>0 &amp; u_{22} &amp; u_{23}\<br>0 &amp; 0 &amp; u_{33}<br>\end{bmatrix}<br>]</p>
 <p>为什么要这样分解呢？</p>
 <p>我们考虑这样一个系数矩阵A</p>
-<p>$$<br>A&#x3D;\begin{bmatrix}<br>1 &amp; 2 &amp; -5\<br>0 &amp; 1 &amp; -2\<br>0 &amp; 0 &amp;1<br>\end{bmatrix}<br>$$<br>它对应的方程组为<br>$$<br>x_1+2x_2-5x_3&#x3D;3\<br>x_2-2x_3&#x3D;6\<br>x_3&#x3D;7<br>$$</p>
+<p>[<br>A&#x3D;\begin{bmatrix}<br>1 &amp; 2 &amp; -5\<br>0 &amp; 1 &amp; -2\<br>0 &amp; 0 &amp;1<br>\end{bmatrix}<br>]</p>
+<p>它对应的方程组为</p>
+<p>[<br>x_1+2x_2-5x_3&#x3D;3\<br>x_2-2x_3&#x3D;6\<br>x_3&#x3D;7<br>]</p>
 <p>这个矩阵是一个上三角矩阵，对于矩阵的最后一行来说，我们可以直接得到x3的值，然后再带入到第二行的方程中，就可以得到x2的值，最后再带入到第一行的方程中，就可以得到x1的值。</p>
 <p>这样我们就不需要繁琐的消元操作，就可以得到方程组的解。实际上三角矩阵的逆矩阵也是比较容易计算的。</p>
 <p>那么假设我们已经得到了这样的分解，那么我们就可以得到这样的等式：</p>
-<p>$$<br>Ax&#x3D;b\<br>LUx&#x3D;b<br>$$</p>
+<p>[<br>Ax&#x3D;b\<br>LUx&#x3D;b<br>]</p>
 <p>我们可以将Ux看成一个整体，那么我们就可以得到这样的等式：</p>
-<p>$$<br>Ly&#x3D;b\<br>Ux&#x3D;y<br>$$</p>
+<p>[<br>Ly&#x3D;b\<br>Ux&#x3D;y<br>]</p>
 <p>这两个方程都是三角矩阵的方程，我们可以按照刚刚的方式直接求解。</p>
 <p>那么我们如何得到这样的分解呢？在数学上，有很多种方式可以得到这样的分解，比如高斯消元法，待定系数法等等。大家感兴趣的话可以翻开任何一本线性代数的教材，都可以找到这样的方法。</p>
 <p>接下来，我们就来看看如何在c语言中使用GSL库来实现这样的LU分解。并且使用LU分解来解决一个线性方程组。</p>
 <p>我们先来写一下代码：</p>
-<pre><code class="c">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;gsl/gsl_linalg.h&gt;
-
-// LU decomposition
-int main()
-&#123;
-    int i, j;
-
-    // Matrix A
-    gsl_matrix *A = gsl_matrix_alloc(3, 3);
-
-    // Vector b
-    gsl_vector *b = gsl_vector_alloc(3);
-
-    for (i = 0; i &lt; 3; i++)
-    &#123;
-        for (j = 0; j &lt; 3; j++)
-        &#123;
-            gsl_matrix_set(A, i, j, i+j+1);
-        &#125;
-        gsl_vector_set(b, i, i+1);
-    &#125;
-    // A:
-    // 1 2 3
-    // 2 3 4
-    // 3 4 5
-
-    // b:
-    // 1
-    // 2
-    // 3
-
-    // LU decomposition
-    gsl_permutation *p = gsl_permutation_alloc(3);
-    int s;
-    gsl_linalg_LU_decomp(A, p, &amp;s);
-
-    printf(&quot;LU decomposition of A:\n&quot;);
-    for (i = 0; i &lt; 3; i++)
-    &#123;
-        for (j = 0; j &lt; 3; j++)
-        &#123;
-            printf(&quot;%f &quot;, gsl_matrix_get(A, i, j));
-        &#125;
-        printf(&quot;\n&quot;);
-    &#125;
-
-    // Solve Ax = b
-    gsl_vector *x = gsl_vector_alloc(3); //solution
-    gsl_linalg_LU_solve(A, p, b, x);
-
-    // Print x
-    for (i = 0; i &lt; 3; i++)
-    &#123;
-        printf(&quot;x_%d = %g\n&quot;, i, gsl_vector_get(x, i));
-    &#125;
-
-    // Free memory
-    gsl_matrix_free(A);
-    gsl_vector_free(b);
-    gsl_vector_free(x);
-    gsl_permutation_free(p);
-
-    return 0;
-&#125;
-</code></pre>
-<p>我们首先需要引入gsl_linalg.h这个头文件，这个头文件中包含了gsl中有关线性代数的函数。</p>
-<p>然后定义一个3x3的矩阵A和一个3x1的向量b，并将两者初始化</p>
-<p>$$<br>A&#x3D;\begin{bmatrix}<br>1 &amp; 2 &amp; 3\<br>2 &amp; 3 &amp; 4\<br>3 &amp; 4 &amp; 5<br>\end{bmatrix}<br>$$</p>
-<p>$$<br>b&#x3D;\begin{bmatrix}<br>1\<br>2\<br>3<br>\end{bmatrix}<br>$$</p>
-<p>在GSL中，当我们需要LU分解时，我们需要定义一个gsl_permutation类型的变量p，用来存储行交换的信息。以及一个int类型的变量s，用来存储行交换的次数。</p>
-<p>随后我们调用gsl_linalg_LU_decomp函数，对矩阵A进行LU分解。</p>
-<p>之后，我们就可以通过函数gsl_linalg_LU_solve来解方程组了。</p>
-<p>我这里打印了一下LU分解之后的矩阵A，以及方程组的解。</p>
-<p>我们来看一下结果。</p>
-<pre><code class="terminal">LU decomposition of A:
-3.000000 4.000000 5.000000 
-0.333333 0.666667 1.333333 
-0.666667 0.500000 -0.000000 
-x_0 = -1.25
-x_1 = 4.5
-x_2 = -2.25
-</code></pre>
-<p>我们可以发现，经过LU分解的矩阵A似乎还是一个3x3的矩阵，我们刚刚在讨论LU分解的时候，提到LU是两个矩阵，这是因为计算机在计算的时候，会将L和U合并成一个矩阵，所以我们看到的矩阵A实际上是一个LU合并之后的矩阵。</p>
-<p>也就是说，LU分解的结果是这样的。</p>
-<p>$$<br>L&#x3D;\begin{bmatrix}<br>1 &amp; 0 &amp; 0\<br>0.333333 &amp; 1 &amp; 0\<br>0.666667 &amp; 0.5 &amp; 1<br>\end{bmatrix}<br>$$<br>$$<br>U&#x3D;\begin{bmatrix}<br>3 &amp; 4 &amp; 5\<br>0 &amp; 0.666667 &amp; 1.333333\<br>0 &amp; 0 &amp; -0<br>\end{bmatrix}<br>$$</p>
-<p>由于下三角矩阵的对角线元素都是1，所以为了存储方便，最终我们可以获得一个3x3的矩阵。</p>
-<p>$$<br>A&#x3D;\begin{bmatrix}<br>3 &amp; 4 &amp; 5\<br>0.333333 &amp; 0.666667 &amp; 1.333333\<br>0.666667 &amp; 0.5 &amp; -0<br>\end{bmatrix}<br>$$</p>
-<p>最终的解存储在x中。</p>
-<p>$$<br>x&#x3D;\begin{bmatrix}<br>-1.25\<br>4.5\<br>-2.25<br>\end{bmatrix}<br>$$</p>
-<p>大家可以验证一下。</p>
 
     </div>
     
